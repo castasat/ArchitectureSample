@@ -2,7 +2,7 @@ package com.openyogaland.denis.architecturesample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.util.Log;
 
 /**
  * Нужно написать андроид приложение с двумя страницами:
@@ -22,11 +22,19 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity
 {
+  // constants
+  private static final String LOG_TAG = "ArchitectureSample";
   
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+  }
+  
+  // shorter logging
+  private void log(String message)
+  {
+    Log.d(LOG_TAG, message);
   }
 }

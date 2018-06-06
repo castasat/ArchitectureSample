@@ -2,35 +2,65 @@ package com.openyogaland.denis.architecturesample;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Simple POJO that matches each field in the JSON response object gotten from querying an API
  * with getters and setters for each field
  */
 public class YogaInstructor
 {
-  /**
-   * fields
-   */
+  
+  @SerializedName("list")
+  private List<String> list = null;
+  
   @SerializedName("who")
   private String who;
   
   @SerializedName("where")
   private String where;
-
+  
+  /**
+   * No args constructor for use in serialization
+   */
+  public YogaInstructor() {}
+  
   /**
    * constructor
-   * @param who   - the name of yoga instructor or yoga club
-   * @param where - place or a list of places
+   * @param list - list of two String values who and where
    */
-  public YogaInstructor(String who, String where)
+  public YogaInstructor(@NotNull List<String> list)
   {
-    this.who   = who;
-    this.where = where;
+    this.list  = (ArrayList<String>) list;
+    
+    this.who   = list.get(0);
+    this.where = list.get(1);
   }
   
   /**
    * getter
-   * @return who - the name of yoga instructor or yoga club
+   * @return list - list of two String values who and where
+   */
+  public List<String> getList()
+  {
+    return list;
+  }
+  
+  /**
+   * setter
+   * @param list - list of two String values who and where
+   */
+  public void setList(List<String> list)
+  {
+    this.list = list;
+  }
+  
+  /**
+   * getter
+   * @return who - nanme of yoga instructor
    */
   public String getWho()
   {
@@ -39,7 +69,7 @@ public class YogaInstructor
   
   /**
    * setter
-   * @param who - the name of yoga instructor or yoga club
+   * @param who - nanme of yoga instructor
    */
   public void setWho(String who)
   {
@@ -48,7 +78,7 @@ public class YogaInstructor
   
   /**
    * getter
-   * @return where - place or a list of places
+   * @return where - the places where yoga instructor works
    */
   public String getWhere()
   {
@@ -57,7 +87,7 @@ public class YogaInstructor
   
   /**
    * setter
-   * @param where - place or a list of places
+   * @param where - the places where yoga instructor works
    */
   public void setWhere(String where)
   {
