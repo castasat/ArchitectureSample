@@ -3,6 +3,7 @@ package com.openyogaland.denis.architecturesample;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
 /**
  * Нужно написать андроид приложение с двумя страницами:
  *
