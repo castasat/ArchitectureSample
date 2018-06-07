@@ -52,9 +52,21 @@ public class MainActivity extends AppCompatActivity
               @NonNull Response<GoogleSheetsResponse> response)
           {
             GoogleSheetsResponse body = response.body();
+            
             if (body != null)
             {
-              log(body.getValues().toString());
+              int size = body.getValues().size();
+              list = new ArrayList<>(size);
+              
+              for (int i = 0; i < size; i++)
+              {
+                List<String>   element    = body.getValues().get(i);
+                YogaInstructor instructor = new YogaInstructor(element);
+                list.add(i, instructor);
+                
+                // log(list.get(i).getWho());
+                
+              }
             }
           }
         
