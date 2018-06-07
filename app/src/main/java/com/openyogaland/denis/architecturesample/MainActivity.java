@@ -1,16 +1,13 @@
 package com.openyogaland.denis.architecturesample;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Нужно написать андроид приложение с двумя страницами:
@@ -30,11 +27,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
 {
-  // constants
-  private static final String LOG_TAG = "ArchitectureSample";
-  
   // fields
-  private List<YogaInstructor> list;
+  private List<YogaInstructor>  list = new ArrayList<>();
   
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -42,50 +36,20 @@ public class MainActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
   
-    ArchitectureSample.getInstance(this).getGoogleSheetsApi()
-        .get(GoogleSheetsApi.SPREADSHEET_ID, "A1:B25", GoogleSheetsApi.API_KEY)
-        .enqueue(new Callback<GoogleSheetsResponse>()
-        {
-          @Override
-          public void onResponse(
-              @NonNull Call<GoogleSheetsResponse>     call,
-              @NonNull Response<GoogleSheetsResponse> response)
-          {
-            GoogleSheetsResponse body = response.body();
-            
-            if (body != null)
-            {
-              int size = body.getValues().size();
-              list = new ArrayList<>(size);
-              
-              for (int i = 0; i < size; i++)
-              {
-                List<String>   element    = body.getValues().get(i);
-                YogaInstructor instructor = new YogaInstructor(element);
-                list.add(i, instructor);
-                
-                // log(list.get(i).getWho());
-                
-              }
-            }
-          }
-        
-          @Override
-          public void onFailure(
-              @NonNull Call<GoogleSheetsResponse> call,
-              @NonNull Throwable t)
-          {
-            log("Error occurred during networking " + t);
-          }
-        });
-  }
+    // find views by id
+    RecyclerView nameRecyclerView = findViewById(R.id.nameRecyclerView);
   
-  /**
-   * shorter logging
-   * @param message - message to print to log
-   */
-  private void log(String message)
-  {
-    Log.d(LOG_TAG, message);
+    // set layout manager
+    LayoutManager nameLayoutManager = new LinearLayoutManager(this);
+    nameRecyclerView.setLayoutManager(nameLayoutManager);
+    // set adapter
+    YogaInstructorAdapter yogaInstructorAdapter = new YogaInstructorAdapter(list, this);
+    // TODO set listener
+    nameRecyclerView.setAdapter(yogaInstructorAdapter);
+    
+    // TODO add variable range option
+    ArchitectureSample.getInstance().getGoogleSheetsApi()
+        .get(GoogleSheetsApi.SPREADSHEET_ID, "A1:B25", GoogleSheetsApi.API_KEY)
+        .enqueue(yogaInstructorAdapter);
   }
 }

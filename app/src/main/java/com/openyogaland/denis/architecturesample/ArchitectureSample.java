@@ -1,9 +1,6 @@
 package com.openyogaland.denis.architecturesample;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import org.jetbrains.annotations.NotNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,18 +15,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 class ArchitectureSample
 {
+  // constants
+  private static final String LOG_TAG = "ArchitectureSample";
+  
   // fields
   private static volatile ArchitectureSample instance;
   private static          GoogleSheetsApi    googleSheetsApi;
   
   /**
    * constructor
-   * @param context - the context of caller object
    */
-  private ArchitectureSample(@NonNull @NotNull Context context)
+  private ArchitectureSample()
   {
     Gson gson = new GsonBuilder()
-        .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
+        //.setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
         .create();
     
     Retrofit retrofit = new Builder()
@@ -42,10 +41,9 @@ class ArchitectureSample
   
   /**
    * obtain instance of singleton, double-check locking safe for threads
-   * @param context - context of caller object
    * @return - the instance of singleton class
    */
-  static ArchitectureSample getInstance(@NotNull Context context)
+  static ArchitectureSample getInstance()
   {
     ArchitectureSample localInstance = instance;
     if(localInstance == null)
@@ -55,7 +53,7 @@ class ArchitectureSample
         localInstance = instance;
         if(localInstance == null)
         {
-          instance = new ArchitectureSample(context);
+          instance = new ArchitectureSample();
         }
       }
     }
@@ -69,5 +67,14 @@ class ArchitectureSample
   public GoogleSheetsApi getGoogleSheetsApi()
   {
     return googleSheetsApi;
+  }
+  
+  /**
+   * shorter logging
+   * @param message - message to print to log
+   */
+  static void log(String message)
+  {
+    Log.d(LOG_TAG, message);
   }
 }

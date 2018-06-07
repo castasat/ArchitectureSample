@@ -17,11 +17,11 @@ public class YogaInstructor
   @SerializedName("list")
   private List<String> list = null;
   
-  @SerializedName("who")
-  private String who;
+  @SerializedName("name")
+  private String name;
   
-  @SerializedName("where")
-  private String where;
+  @SerializedName("place")
+  private String place;
   
   /**
    * No args constructor for use in serialization
@@ -30,19 +30,19 @@ public class YogaInstructor
   
   /**
    * constructor
-   * @param list - list of two String values who and where
+   * @param list - list of two String values name and place
    */
   public YogaInstructor(@NotNull List<String> list)
   {
     this.list  = (ArrayList<String>) list;
     
-    this.who   = list.get(0);
-    this.where = list.get(1);
+    this.name = list.get(0);
+    this.place = list.get(1);
   }
   
   /**
    * getter
-   * @return list - list of two String values who and where
+   * @return list - list of two String values name and place
    */
   public List<String> getList()
   {
@@ -51,7 +51,7 @@ public class YogaInstructor
   
   /**
    * setter
-   * @param list - list of two String values who and where
+   * @param list - list of two String values name and place
    */
   public void setList(List<String> list)
   {
@@ -60,37 +60,37 @@ public class YogaInstructor
   
   /**
    * getter
-   * @return who - nanme of yoga instructor
+   * @return name - nanme of yoga instructor
    */
-  public String getWho()
+  public String getName()
   {
-    return who;
+    return name;
   }
   
   /**
    * setter
-   * @param who - nanme of yoga instructor
+   * @param name - nanme of yoga instructor
    */
-  public void setWho(String who)
+  public void setName(String name)
   {
-    this.who = who;
+    this.name = name;
   }
   
   /**
    * getter
-   * @return where - the places where yoga instructor works
+   * @return place - the places place yoga instructor works
    */
-  public String getWhere()
+  public String getPlace()
   {
-    return where;
+    return place;
   }
   
   /**
    * setter
-   * @param where - the places where yoga instructor works
+   * @param place - the place where yoga instructor works
    */
-  public void setWhere(String where)
+  public void setPlace(String place)
   {
-    this.where = where;
+    this.place = place;
   }
 }
