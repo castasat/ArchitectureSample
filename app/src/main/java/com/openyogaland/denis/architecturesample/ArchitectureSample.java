@@ -2,16 +2,12 @@ package com.openyogaland.denis.architecturesample;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.jetbrains.annotations.NotNull;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.logging.HttpLoggingInterceptor.Level;
 import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,9 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 class ArchitectureSample
 {
-  // constants
-  private static final String LOG_TAG = "ArchitectureSample";
-  
   // fields
   private static volatile ArchitectureSample instance;
   private static          GoogleSheetsApi    googleSheetsApi;
@@ -35,11 +28,6 @@ class ArchitectureSample
    */
   private ArchitectureSample(@NonNull @NotNull Context context)
   {
-    HttpLoggingInterceptor httpLogger = new HttpLoggingInterceptor();
-    httpLogger.setLevel(Level.BASIC);
-    OkHttpClient client = new OkHttpClient();
-    client.interceptors().add(httpLogger);
-  
     Gson gson = new GsonBuilder()
         .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
         .create();
@@ -81,14 +69,5 @@ class ArchitectureSample
   public GoogleSheetsApi getGoogleSheetsApi()
   {
     return googleSheetsApi;
-  }
-  
-  /**
-   * shorter logging
-   * @param message - message to print to log
-   */
-  private void log(String message)
-  {
-    Log.d(LOG_TAG, message);
   }
 }

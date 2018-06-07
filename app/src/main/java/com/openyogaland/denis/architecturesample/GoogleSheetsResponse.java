@@ -1,50 +1,52 @@
-package com.openyogaland.denis.architecturesample;
+ package com.openyogaland.denis.architecturesample;
+
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-public class GoogleSheetsResponse
+ public class GoogleSheetsResponse
 {
+  // fields
+  @Expose
   @SerializedName("range")
   private String range;
   
+  @Expose
   @SerializedName("majorDimension")
   private String majorDimension;
   
+  @Expose
   @SerializedName("values")
-  private List<YogaInstructor> values = null;
+  private List<List<String>> values = new ArrayList<List<String>>();
   
   /**
    * No args constructor for use in serialization
    */
-  public GoogleSheetsResponse() {}
+  public GoogleSheetsResponse() {
+  }
   
   /**
    * constructor
-   * @param range - the range the values cover, in A1 notation. For output, this range indicates
-   * the entire requested range, even though the values will exclude trailing rows and columns.
-   * When appending values, this field represents the range to search for a table, after which
-   * values will be appended.
-   * @param majorDimension - the major dimension that results should use
-   * @param values - the data that was read or to be written. This is an array of arrays, the
-   * outer array representing all the data and each inner array representing a major dimension.
-   * Each item in the inner array corresponds with one cell
+   * @param values - a list of lists with String data
+   * @param range - the range given in request and response
+   * @param majorDimension - ROWS (default) or COLUMNS
    */
-  public GoogleSheetsResponse(String range, String majorDimension, List<YogaInstructor> values)
+  public GoogleSheetsResponse(String range, String majorDimension, List<List<String>> values)
   {
-    this.range          = range;
+    this.range = range;
     this.majorDimension = majorDimension;
-    this.values         = values;
+    this.values = values;
   }
   
   /**
    * getter
-   * @return range - the range the values cover, in A1 notation. For output, this range indicates
-   * the entire requested range, even though the values will exclude trailing rows and columns.
-   * When appending values, this field represents the range to search for a table, after which
-   * values will be appended.
+   * @return range - the range given in request and response
    */
   public String getRange()
   {
@@ -53,11 +55,7 @@ public class GoogleSheetsResponse
   
   /**
    * setter
-   * @param range - the range the values cover, in A1 notation. For output, this range
-   * indicates
-   * the entire requested range, even though the values will exclude trailing rows and columns.
-   * When appending values, this field represents the range to search for a table, after which
-   * values will be appended.
+   * @param range - the range given in request and response
    */
   public void setRange(String range)
   {
@@ -66,7 +64,7 @@ public class GoogleSheetsResponse
   
   /**
    * getter
-   * @return majorDimension - the major dimension that results should use
+   * @return majorDimension - ROWS (default) or COLUMNS
    */
   public String getMajorDimension()
   {
@@ -75,7 +73,7 @@ public class GoogleSheetsResponse
   
   /**
    * setter
-   * @param majorDimension - the major dimension that results should use
+   * @param majorDimension - ROWS (default) or COLUMNS
    */
   public void setMajorDimension(String majorDimension)
   {
@@ -84,22 +82,23 @@ public class GoogleSheetsResponse
   
   /**
    * getter
-   * @return values - the data that was read or to be written. This is an array of arrays, the
-   * outer array representing all the data and each inner array representing a major dimension.
-   * Each item in the inner array corresponds with one cell
+   * @return values - a list of lists with String data
    */
-  public List<YogaInstructor> getValues()
+  @NonNull
+  public List<List<String>> getValues()
   {
+    if(values == null)
+    {
+      return new ArrayList<List<String>>();
+    }
     return values;
   }
   
   /**
    * setter
-   * @param values - the data that was read or to be written. This is an array of
-   * arrays, the outer array representing all the data and each inner array representing a major
-   * dimension. Each item in the inner array corresponds with one cell
+   * @param values - a list of lists with String data
    */
-  public void setValues(List<YogaInstructor> values)
+  public void setValues(List<List<String>> values)
   {
     this.values = values;
   }

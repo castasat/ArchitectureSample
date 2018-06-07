@@ -16,7 +16,7 @@ public interface GoogleSheetsApi
   
   // endpoint methods declaration
   @GET("/v4/spreadsheets/{spreadsheetId}/values/{range}")
-  Call<ValueRange> get(@Path ("spreadsheetId") String spreadsheetId,
-                       @Path ("range")         String range,
-                       @Query("key")           String apiKey);
+  Call<GoogleSheetsResponse> get(@Path ("spreadsheetId") String spreadsheetId,
+                                 @Path ("range")         String range,
+                                 @Query("key")           String apiKey);
 }
