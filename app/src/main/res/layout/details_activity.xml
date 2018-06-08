@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".DetailsActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/yogaInstructorRecyclerView"
+    <TextView
+        android:id="@+id/nameTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:divider="@color/white" />
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/detailsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -5,9 +5,13 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Singleton pattern class
@@ -27,15 +31,11 @@ class ArchitectureSample
    */
   private ArchitectureSample()
   {
-    Gson gson = new GsonBuilder()
-        //.setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
-        .create();
-    
+    Gson gson = new GsonBuilder().create();
     Retrofit retrofit = new Builder()
         .baseUrl(GoogleSheetsApi.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build();
-    
     googleSheetsApi = retrofit.create(GoogleSheetsApi.class);
   }
   
@@ -77,4 +77,17 @@ class ArchitectureSample
   {
     Log.d(LOG_TAG, message);
   }
+}
+
+interface GoogleSheetsApi
+{
+  // constants
+  String BASE_URL       = "https://sheets.googleapis.com";
+  String API_KEY        = "AIzaSyCVxwFcVAIy3COhJM9uiRr9iCS1KfO7nhM";
+  String SPREADSHEET_ID = "1rvgAmCOWsuTVdgrcv_VXLf4xo7HU-dIcPFAdJeXsxBI";
+  
+  // endpoint methods declaration
+  @GET("/v4/spreadsheets/{spreadsheetId}/values/{range}")
+  Call<GoogleSheetsResponse> get(@Path("spreadsheetId") String spreadsheetId,
+      @Path("range") String range, @Query("key") String apiKey);
 }
