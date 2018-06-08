@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
 
+import static com.openyogaland.denis.architecturesample.ArchitectureSample.log;
+
 /**
  * Нужно написать андроид приложение с двумя страницами:
  *
@@ -25,7 +27,7 @@ import java.util.ArrayList;
  *  Можно использовать любые библиотеки, кроме тех которые уже содержат решение задачи.
  */
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements OnDetailsRequestedListener
 {
   // fields
   private ArrayList<YogaInstructor> instructors = new ArrayList<>();
@@ -48,8 +50,11 @@ public class MainActivity extends AppCompatActivity
     LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
     yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
     yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
+    
+    yogaInstructorAdapter.setOnDetailsRequestedListener(this);
   }
   
+  @Override
   public void onDetailsRequested(YogaInstructor yogaInstructor)
   {
     Intent intent = new Intent(this, DetailsActivity.class);

@@ -23,7 +23,8 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
                                               OnClickListener
 {
   // fields
-  private ArrayList<YogaInstructor> instructors;
+  private ArrayList<YogaInstructor>  instructors;
+  private OnDetailsRequestedListener onDetailsRequestedListener;
   
   /**
    * Inner static class YogaInstructorViewHolder
@@ -123,7 +124,7 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
     YogaInstructor instructor = getYogaInstructor(position);
     TextView itemTextView = viewHolder.itemTextView;
     itemTextView.setText(instructor.getName());
-    itemTextView.setId(position);
+    itemTextView.setTag(position);
     itemTextView.setOnClickListener(this);
   }
   
@@ -216,7 +217,17 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
   @Override
   public void onClick(View view)
   {
-    // TODO open new activity with extended information
+    if(view instanceof TextView && view.getTag() != null)
+    {
+      YogaInstructor instructor = instructors.get((Integer) view.getTag());
+      //log("instructor = " + instructor.getName());
+      onDetailsRequestedListener.onDetailsRequested(instructor);
+    }
+  }
+  
+  public void setOnDetailsRequestedListener(OnDetailsRequestedListener onDetailsRequestedListener)
+  {
+    this.onDetailsRequestedListener = onDetailsRequestedListener;
   }
   
   @Contract(" -> fail")
@@ -225,4 +236,9 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
     throw new IllegalArgumentException(
         "List length overflow. Position shouldn't be greater than the size of the instructors");
   }
+}
+
+interface OnDetailsRequestedListener
+{
+  void onDetailsRequested(YogaInstructor yogaInstructor);
 }
