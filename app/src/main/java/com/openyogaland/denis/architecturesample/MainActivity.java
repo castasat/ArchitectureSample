@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Нужно написать андроид приложение с двумя страницами:
@@ -28,7 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
   // fields
-  private List<YogaInstructor>  list = new ArrayList<>();
+  private ArrayList<YogaInstructor> instructors = new ArrayList<>();
   
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -36,20 +35,17 @@ public class MainActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
   
-    // find views by id
-    RecyclerView nameRecyclerView = findViewById(R.id.nameRecyclerView);
-  
-    // set layout manager
-    LayoutManager nameLayoutManager = new LinearLayoutManager(this);
-    nameRecyclerView.setLayoutManager(nameLayoutManager);
-    // set adapter
-    YogaInstructorAdapter yogaInstructorAdapter = new YogaInstructorAdapter(list, this);
-    // TODO set listener
-    nameRecyclerView.setAdapter(yogaInstructorAdapter);
+    YogaInstructorAdapter yogaInstructorAdapter = new YogaInstructorAdapter(instructors);
     
+    // TODO check internet connection
     // TODO add variable range option
     ArchitectureSample.getInstance().getGoogleSheetsApi()
         .get(GoogleSheetsApi.SPREADSHEET_ID, "A1:B25", GoogleSheetsApi.API_KEY)
         .enqueue(yogaInstructorAdapter);
+    
+    RecyclerView  yogaInstructorRecyclerView  = findViewById(R.id.yogaInstructorRecyclerView);
+    LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
+    yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
+    yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
   }
 }

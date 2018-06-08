@@ -3,12 +3,9 @@
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import org.jetbrains.annotations.NotNull;
 
  public class GoogleSheetsResponse
 {
@@ -23,13 +20,12 @@ import org.jetbrains.annotations.NotNull;
   
   @Expose
   @SerializedName("values")
-  private List<List<String>> values = new ArrayList<List<String>>();
+  private ArrayList<ArrayList<String>> values = new ArrayList<>();
   
   /**
    * No args constructor for use in serialization
    */
-  public GoogleSheetsResponse() {
-  }
+  public GoogleSheetsResponse() {}
   
   /**
    * constructor
@@ -37,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
    * @param range - the range given in request and response
    * @param majorDimension - ROWS (default) or COLUMNS
    */
-  public GoogleSheetsResponse(String range, String majorDimension, List<List<String>> values)
+  public GoogleSheetsResponse(String range, String majorDimension, ArrayList<ArrayList<String>> values)
   {
     this.range = range;
     this.majorDimension = majorDimension;
@@ -85,11 +81,11 @@ import org.jetbrains.annotations.NotNull;
    * @return values - a list of lists with String data
    */
   @NonNull
-  public List<List<String>> getValues()
+  public ArrayList<ArrayList<String>> getValues()
   {
     if(values == null)
     {
-      return new ArrayList<List<String>>();
+      return new ArrayList<>();
     }
     return values;
   }
@@ -98,7 +94,7 @@ import org.jetbrains.annotations.NotNull;
    * setter
    * @param values - a list of lists with String data
    */
-  public void setValues(List<List<String>> values)
+  public void setValues(ArrayList<ArrayList<String>> values)
   {
     this.values = values;
   }

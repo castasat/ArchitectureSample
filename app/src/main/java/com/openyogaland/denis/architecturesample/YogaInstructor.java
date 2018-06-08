@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Simple POJO that matches each field in the JSON response object gotten from querying an API
@@ -14,8 +13,8 @@ import java.util.List;
 public class YogaInstructor
 {
   
-  @SerializedName("list")
-  private List<String> list = null;
+  @SerializedName("instructors")
+  private ArrayList<String> instructors = null;
   
   @SerializedName("name")
   private String name;
@@ -30,37 +29,37 @@ public class YogaInstructor
   
   /**
    * constructor
-   * @param list - list of two String values name and place
+   * @param instructors - instructors of two String values name and place
    */
-  public YogaInstructor(@NotNull List<String> list)
+  YogaInstructor(@NotNull ArrayList<String> instructors)
   {
-    this.list  = (ArrayList<String>) list;
+    this.instructors = instructors;
     
-    this.name = list.get(0);
-    this.place = list.get(1);
+    this.name = instructors.get(0);
+    this.place = instructors.get(1);
   }
   
   /**
    * getter
-   * @return list - list of two String values name and place
+   * @return instructors - instructors of two String values name and place
    */
-  public List<String> getList()
+  public ArrayList<String> getInstructors()
   {
-    return list;
+    return instructors;
   }
   
   /**
    * setter
-   * @param list - list of two String values name and place
+   * @param instructors - instructors of two String values name and place
    */
-  public void setList(List<String> list)
+  public void setInstructors(ArrayList<String> instructors)
   {
-    this.list = list;
+    this.instructors = instructors;
   }
   
   /**
    * getter
-   * @return name - nanme of yoga instructor
+   * @return name - name of yoga instructor
    */
   public String getName()
   {
@@ -69,7 +68,7 @@ public class YogaInstructor
   
   /**
    * setter
-   * @param name - nanme of yoga instructor
+   * @param name - name of yoga instructor
    */
   public void setName(String name)
   {
