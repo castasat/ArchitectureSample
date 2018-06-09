@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,16 +39,25 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
     YogaInstructorAdapter yogaInstructorAdapter = new YogaInstructorAdapter(instructors);
     yogaInstructorAdapter.setOnDetailsRequestedListener(this);
     
-    // TODO check internet connection
-    // TODO add variable range option
-    ArchitectureSample.getInstance().getGoogleSheetsApi()
-        .get(GoogleSheetsApi.SPREADSHEET_ID, "A1:B25", GoogleSheetsApi.API_KEY)
-        .enqueue(yogaInstructorAdapter);
-    
-    RecyclerView  yogaInstructorRecyclerView  = findViewById(R.id.yogaInstructorRecyclerView);
-    LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
-    yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
-    yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
+    if(ArchitectureSample.hasConnection(this))
+    {
+      Toast.makeText(this, "Fetching data from Google Sheets Api", Toast.LENGTH_LONG).show();
+      
+      // TODO add variable range option
+      
+      ArchitectureSample.getInstance().getGoogleSheetsApi()
+          .get(GoogleSheetsApi.SPREADSHEET_ID, "A1:B25", GoogleSheetsApi.API_KEY)
+          .enqueue(yogaInstructorAdapter);
+      
+      RecyclerView  yogaInstructorRecyclerView  = findViewById(R.id.yogaInstructorRecyclerView);
+      LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
+      yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
+      yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
+    }
+    else
+    {
+      Toast.makeText(this, "Check the internet connection", Toast.LENGTH_LONG).show();
+    }
   }
   
   @Override

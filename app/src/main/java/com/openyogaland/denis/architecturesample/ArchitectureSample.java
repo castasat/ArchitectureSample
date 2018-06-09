@@ -1,9 +1,15 @@
 package com.openyogaland.denis.architecturesample;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -78,6 +84,26 @@ class ArchitectureSample
   static void log(String message)
   {
     Log.d(LOG_TAG, message);
+  }
+  
+  /**
+   * check if there is internet connection
+   * @param context - context of the caller
+   * @return boolean true if there is internet connection, false otherwise
+   */
+  static boolean hasConnection(@NonNull @NotNull final Context context)
+  {
+    // local variables
+    ConnectivityManager connectivityManager;
+    NetworkInfo         networkInfo;
+    
+    connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    if(connectivityManager != null)
+    {
+      networkInfo = connectivityManager.getActiveNetworkInfo();
+      return networkInfo != null && networkInfo.isConnected();
+    }
+    return false;
   }
 }
 
