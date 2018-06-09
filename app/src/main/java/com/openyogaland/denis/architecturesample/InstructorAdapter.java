@@ -15,13 +15,14 @@ import retrofit2.Call;
 import retrofit2.Response;
 import static com.openyogaland.denis.architecturesample.ArchitectureSample.log;
 
-public class YogaInstructorAdapter extends Adapter<YogaInstructorAdapter.YogaInstructorViewHolder>
+public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorViewHolder>
                                    implements retrofit2.Callback<GoogleSheetsResponse>,
                                               View.OnClickListener
 {
   // fields
   private ArrayList<YogaInstructor>  instructors;
   private OnDetailsRequestedListener onDetailsRequestedListener;
+  private OnLoadMoreItemsListener    onLoadMoreItemsListener;
   
   /**
    * Inner static class YogaInstructorViewHolder
@@ -48,7 +49,7 @@ public class YogaInstructorAdapter extends Adapter<YogaInstructorAdapter.YogaIns
    * constructor
    * @param instructors - instructors of YogaInstructor elements
    */
-  YogaInstructorAdapter(@NonNull ArrayList<YogaInstructor> instructors)
+  InstructorAdapter(@NonNull ArrayList<YogaInstructor> instructors)
   {
     this.instructors = instructors;
   }
@@ -197,6 +198,11 @@ public class YogaInstructorAdapter extends Adapter<YogaInstructorAdapter.YogaIns
         YogaInstructor    yogaInstructor = new YogaInstructor(item);
         instructors.add(i, yogaInstructor);
         notifyDataSetChanged();
+        if (onLoadMoreItemsListener != null)
+        {
+          onLoadMoreItemsListener.setLoading(false);
+        }
+        
         // log(instructors.get(i).getName());
       }
     }
@@ -218,14 +224,24 @@ public class YogaInstructorAdapter extends Adapter<YogaInstructorAdapter.YogaIns
     if(view instanceof TextView && view.getTag() != null)
     {
       YogaInstructor instructor = instructors.get((Integer) view.getTag());
+      
       // log("instructor.name = " + instructor.getName());
-      onDetailsRequestedListener.onDetailsRequested(instructor.getName(), instructor.getPlace());
+      
+      if (onDetailsRequestedListener != null)
+      {
+        onDetailsRequestedListener.onDetailsRequested(instructor.getName(), instructor.getPlace());
+      }
     }
   }
   
   public void setOnDetailsRequestedListener(OnDetailsRequestedListener onDetailsRequestedListener)
   {
     this.onDetailsRequestedListener = onDetailsRequestedListener;
+  }
+  
+  public void setOnLoadMoreItemsListener(OnLoadMoreItemsListener onLoadMoreItemsListener)
+  {
+    this.onLoadMoreItemsListener = onLoadMoreItemsListener;
   }
   
   @Contract(" -> fail")
