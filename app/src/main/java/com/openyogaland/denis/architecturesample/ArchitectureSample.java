@@ -20,7 +20,9 @@ import retrofit2.http.Query;
 class ArchitectureSample
 {
   // constants
-  private static final String LOG_TAG = "ArchitectureSample";
+  private static final String LOG_TAG = "Architecture Sample";
+          static final String NAME    = "name";
+          static final String PLACE   = "place";
   
   // fields
   private static volatile ArchitectureSample instance;

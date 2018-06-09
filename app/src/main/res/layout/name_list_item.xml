@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemFrameLayout"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/itemTextView"
+    <android.support.v7.widget.CardView
+        android:id="@+id/itemCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"/>
+        style="@style/cardViewStyle">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/itemTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Name"/>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

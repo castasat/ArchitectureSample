@@ -5,16 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="12dp"
     tools:context=".DetailsActivity">
 
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        tools:text="Name"/>
 
     <TextView
-        android:id="@+id/detailsTextView"
+        android:id="@+id/placeTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:name="Place"/>
 
 </LinearLayout>

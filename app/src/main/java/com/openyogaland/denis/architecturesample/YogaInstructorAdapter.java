@@ -6,21 +6,18 @@ import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.openyogaland.denis.architecturesample.YogaInstructorAdapter.YogaInstructorViewHolder;
 import org.jetbrains.annotations.Contract;
 import java.util.ArrayList;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import static com.openyogaland.denis.architecturesample.ArchitectureSample.log;
 
-public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
-                                   implements Callback<GoogleSheetsResponse>,
-                                              OnClickListener
+public class YogaInstructorAdapter extends Adapter<YogaInstructorAdapter.YogaInstructorViewHolder>
+                                   implements retrofit2.Callback<GoogleSheetsResponse>,
+                                              View.OnClickListener
 {
   // fields
   private ArrayList<YogaInstructor>  instructors;
@@ -42,7 +39,7 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
     YogaInstructorViewHolder(View itemView)
     {
       super(itemView);
-      itemFrameLayout = itemView.findViewById(R.id.itemFrameLayout);
+      itemFrameLayout = itemView.findViewById(R.id.itemCardView);
       itemTextView    = itemView.findViewById(R.id.itemTextView);
     }
   }
@@ -184,7 +181,8 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
   }
   
   @Override
-  public void onResponse(@NonNull Call<GoogleSheetsResponse> call, @NonNull Response<GoogleSheetsResponse> response)
+  public void onResponse(@NonNull Call<GoogleSheetsResponse> call,
+      @NonNull Response<GoogleSheetsResponse> response)
   {
     GoogleSheetsResponse body = response.body();
     
@@ -220,8 +218,8 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
     if(view instanceof TextView && view.getTag() != null)
     {
       YogaInstructor instructor = instructors.get((Integer) view.getTag());
-      //log("instructor = " + instructor.getName());
-      onDetailsRequestedListener.onDetailsRequested(instructor);
+      // log("instructor.name = " + instructor.getName());
+      onDetailsRequestedListener.onDetailsRequested(instructor.getName(), instructor.getPlace());
     }
   }
   
@@ -240,5 +238,5 @@ public class YogaInstructorAdapter extends    Adapter<YogaInstructorViewHolder>
 
 interface OnDetailsRequestedListener
 {
-  void onDetailsRequested(YogaInstructor yogaInstructor);
+  void onDetailsRequested(String name, String place);
 }

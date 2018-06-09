@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
 
-import static com.openyogaland.denis.architecturesample.ArchitectureSample.log;
-
 /**
  * Нужно написать андроид приложение с двумя страницами:
  *
@@ -26,7 +24,6 @@ import static com.openyogaland.denis.architecturesample.ArchitectureSample.log;
  *
  *  Можно использовать любые библиотеки, кроме тех которые уже содержат решение задачи.
  */
-
 public class MainActivity extends AppCompatActivity implements OnDetailsRequestedListener
 {
   // fields
@@ -39,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
     setContentView(R.layout.activity_main);
   
     YogaInstructorAdapter yogaInstructorAdapter = new YogaInstructorAdapter(instructors);
+    yogaInstructorAdapter.setOnDetailsRequestedListener(this);
     
     // TODO check internet connection
     // TODO add variable range option
@@ -50,16 +48,14 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
     LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
     yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
     yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
-    
-    yogaInstructorAdapter.setOnDetailsRequestedListener(this);
   }
   
   @Override
-  public void onDetailsRequested(YogaInstructor yogaInstructor)
+  public void onDetailsRequested(String name, String place)
   {
     Intent intent = new Intent(this, DetailsActivity.class);
-    intent.putExtra("name", yogaInstructor.getName());
-    intent.putExtra("place", yogaInstructor.getPlace());
+    intent.putExtra(ArchitectureSample.NAME, name);
+    intent.putExtra(ArchitectureSample.PLACE, place);
     startActivity(intent);
   }
 }
