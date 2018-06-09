@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Нужно написать андроид приложение с двумя страницами:
@@ -27,8 +28,13 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity implements OnDetailsRequestedListener
 {
+  // constants
+  private static final String       RANGE_TEMPLATE = "A%1$d:B%2$d";
+  private static final int          FIRST_ELEMENT  = 1;
+  private static final int          LOAD_ELEMENTS  = 50;
+  
   // fields
-  private ArrayList<YogaInstructor> instructors = new ArrayList<>();
+  private ArrayList<YogaInstructor> instructors   = new ArrayList<>();
   
   @Override
   protected void onCreate(Bundle savedInstanceState)
@@ -39,20 +45,21 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
     YogaInstructorAdapter yogaInstructorAdapter = new YogaInstructorAdapter(instructors);
     yogaInstructorAdapter.setOnDetailsRequestedListener(this);
     
+    RecyclerView  yogaInstructorRecyclerView  = findViewById(R.id.yogaInstructorRecyclerView);
+    LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
+    yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
+    yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
+    
     if(ArchitectureSample.hasConnection(this))
     {
       Toast.makeText(this, "Fetching data from Google Sheets Api", Toast.LENGTH_LONG).show();
       
-      // TODO add variable range option
+      // TODO calculate the bounds of range
+      String range = String.format(Locale.getDefault(), RANGE_TEMPLATE, FIRST_ELEMENT, LOAD_ELEMENTS);
       
       ArchitectureSample.getInstance().getGoogleSheetsApi()
-          .get(GoogleSheetsApi.SPREADSHEET_ID, "A1:B25", GoogleSheetsApi.API_KEY)
+          .get(GoogleSheetsApi.SPREADSHEET_ID, range, GoogleSheetsApi.API_KEY)
           .enqueue(yogaInstructorAdapter);
-      
-      RecyclerView  yogaInstructorRecyclerView  = findViewById(R.id.yogaInstructorRecyclerView);
-      LayoutManager yogaInstructorLayoutManager = new LinearLayoutManager(this);
-      yogaInstructorRecyclerView.setLayoutManager(yogaInstructorLayoutManager);
-      yogaInstructorRecyclerView.setAdapter(yogaInstructorAdapter);
     }
     else
     {
