@@ -117,5 +117,6 @@ interface GoogleSheetsApi
   // endpoint methods declaration
   @GET("/v4/spreadsheets/{spreadsheetId}/values/{range}")
   Call<GoogleSheetsResponse> get(@Path("spreadsheetId") String spreadsheetId,
-      @Path("range") String range, @Query("key") String apiKey);
+                                 @Path("range") String range,
+                                 @Query("key") String apiKey);
 }

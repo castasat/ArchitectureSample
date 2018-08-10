@@ -16,7 +16,7 @@ public class DetailsActivity extends AppCompatActivity
   
     Intent intent = getIntent();
   
-    TextView nameTextView    = findViewById(R.id.nameTextView);
+    TextView nameTextView  = findViewById(R.id.nameTextView);
     TextView placeTextView = findViewById(R.id.placeTextView);
     
     nameTextView.setText(intent.getStringExtra(ArchitectureSample.NAME));
