@@ -24,7 +24,8 @@ import retrofit2.http.Query;
  * Singleton pattern class
  * to call Api from one single instance
  */
-class ArchitectureSample
+public class
+ArchitectureSample
 {
   // constants
   private static final String LOG_TAG       = "Architecture Sample";

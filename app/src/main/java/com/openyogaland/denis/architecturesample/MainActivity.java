@@ -30,10 +30,10 @@ import java.util.Locale;
  *  Можно использовать любые библиотеки, кроме тех которые уже содержат решение задачи.
  */
 public class
-MainActivity extends
-             AppCompatActivity implements
-                               OnDetailsRequestedListener,
-                               OnLoadMoreItemsListener
+MainActivity
+extends AppCompatActivity
+implements OnDetailsRequestedListener,
+           OnLoadMoreItemsListener
 {
   // constants
   @NonNls private static final String RANGE_TEMPLATE = "A%1$d:B%2$d";
@@ -116,8 +116,8 @@ MainActivity extends
   @Override
   public final void
   loadItems(final int loadStartItemBound,
-            final int loadEndItemBound) throws
-                                  IllegalArgumentException
+            final int loadEndItemBound)
+  throws IllegalArgumentException
   {
     if ((loadStartItemBound >= 0) &&
         (loadEndItemBound >= 0) &&
@@ -132,9 +132,11 @@ MainActivity extends
                                          loadStartItemBound,
                                          loadEndItemBound);
   
-      ArchitectureSample.getInstance().getGoogleSheetsApi()
-          .get(GoogleSheetsApi.SPREADSHEET_ID, range, GoogleSheetsApi.API_KEY)
-          .enqueue(instructorAdapter);
+      ArchitectureSample
+      .getInstance()
+      .getGoogleSheetsApi()
+      .get(GoogleSheetsApi.SPREADSHEET_ID, range, GoogleSheetsApi.API_KEY)
+      .enqueue(instructorAdapter);
     }
     else
     {
@@ -204,7 +206,10 @@ MainActivity extends
      * @param onLoadMoreItemsListener - callback interface to load more items
      */
     final void
-    setOnLoadMoreItemsListener(@Nullable final OnLoadMoreItemsListener onLoadMoreItemsListener)
+    setOnLoadMoreItemsListener
+    (@Nullable final
+     OnLoadMoreItemsListener
+     onLoadMoreItemsListener)
     {
       this.onLoadMoreItemsListener = onLoadMoreItemsListener;
     }
