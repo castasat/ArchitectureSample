@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
@@ -81,7 +82,7 @@ class ArchitectureSample
    * shorter logging
    * @param message - message to print to log
    */
-  static void log(String message)
+  static void log(@NonNls String message)
   {
     Log.d(LOG_TAG, message);
   }

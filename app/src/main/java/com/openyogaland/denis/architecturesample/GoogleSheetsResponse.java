@@ -22,10 +22,8 @@ public class GoogleSheetsResponse
   @SerializedName("values")
   private ArrayList<ArrayList<String>> values = new ArrayList<>();
   
-  /**
-   * No args constructor for use in serialization
-   */
-  public GoogleSheetsResponse() {}
+  public
+  GoogleSheetsResponse() {}
   
   /**
    * constructor
@@ -33,55 +31,47 @@ public class GoogleSheetsResponse
    * @param range - the range given in request and response
    * @param majorDimension - ROWS (default) or COLUMNS
    */
-  public GoogleSheetsResponse(String range, String majorDimension, ArrayList<ArrayList<String>> values)
+  public
+  GoogleSheetsResponse(String range,
+                       String majorDimension,
+                       ArrayList<ArrayList<String>> values)
   {
     this.range = range;
     this.majorDimension = majorDimension;
     this.values = values;
   }
   
-  /**
-   * getter
-   * @return range - the range given in request and response
-   */
-  public String getRange()
+  public String
+  getRange()
   {
     return range;
   }
   
-  /**
-   * setter
-   * @param range - the range given in request and response
-   */
-  public void setRange(String range)
+  public void
+  setRange(String range)
   {
     this.range = range;
   }
-  
-  /**
-   * getter
-   * @return majorDimension - ROWS (default) or COLUMNS
-   */
-  public String getMajorDimension()
+
+  public String
+  getMajorDimension()
   {
     return majorDimension;
   }
   
-  /**
-   * setter
-   * @param majorDimension - ROWS (default) or COLUMNS
-   */
-  public void setMajorDimension(String majorDimension)
+  // majorDimension - ROWS (default) or COLUMNS
+  public void
+  setMajorDimension(String majorDimension)
   {
     this.majorDimension = majorDimension;
   }
   
   /**
-   * getter
    * @return values - a list of lists with String data
    */
   @NonNull
-  public ArrayList<ArrayList<String>> getValues()
+  public ArrayList<ArrayList<String>>
+  getValues()
   {
     if(values == null)
     {
@@ -91,10 +81,10 @@ public class GoogleSheetsResponse
   }
   
   /**
-   * setter
    * @param values - a list of lists with String data
    */
-  public void setValues(ArrayList<ArrayList<String>> values)
+  public void
+  setValues(ArrayList<ArrayList<String>> values)
   {
     this.values = values;
   }

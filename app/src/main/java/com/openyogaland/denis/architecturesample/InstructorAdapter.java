@@ -1,57 +1,48 @@
 package com.openyogaland.denis.architecturesample;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.openyogaland.denis.architecturesample.InstructorAdapter.YogaInstructorViewHolder;
+
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import static com.openyogaland.denis.architecturesample.ArchitectureSample.log;
 
-public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorViewHolder>
-                                   implements retrofit2.Callback<GoogleSheetsResponse>,
-                                              View.OnClickListener
+public class InstructorAdapter extends
+                               Adapter<YogaInstructorViewHolder> implements
+                                                                 Callback<GoogleSheetsResponse>,
+                                                                 OnClickListener
 {
   // fields
-  private ArrayList<YogaInstructor>  instructors;
-  private OnDetailsRequestedListener onDetailsRequestedListener;
-  private OnLoadMoreItemsListener    onLoadMoreItemsListener;
-  
-  /**
-   * Inner static class YogaInstructorViewHolder
-   * Provides a reference to the views for each data item
-   */
-  static class YogaInstructorViewHolder extends ViewHolder
-  {
-    FrameLayout itemFrameLayout;
-    TextView    itemTextView;
-    
-    /**
-     * constructor
-     * @param itemView - root or parent layout element for the item
-     */
-    YogaInstructorViewHolder(View itemView)
-    {
-      super(itemView);
-      itemFrameLayout = itemView.findViewById(R.id.itemCardView);
-      itemTextView    = itemView.findViewById(R.id.itemTextView);
-    }
-  }
+  private final ArrayList<YogaInstructor>  instructors;
+  private OnDetailsRequestedListener       onDetailsRequestedListener;
+  private OnLoadMoreItemsListener          onLoadMoreItemsListener;
   
   /**
    * constructor
    * @param instructors - instructors of YogaInstructor elements
    */
-  InstructorAdapter(@NonNull ArrayList<YogaInstructor> instructors)
+  InstructorAdapter(@Nullable final ArrayList<YogaInstructor> instructors)
   {
-    this.instructors = instructors;
+    super();
+    this.instructors = new ArrayList<>();
+    this.instructors.addAll(instructors);
   }
   
   /**
@@ -59,9 +50,33 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @return The total number of items in this adapter.
    */
   @Override
-  public int getItemCount()
+  public final int
+  getItemCount()
   {
     return instructors.size();
+  }
+  
+  /**
+   * Inner static class YogaInstructorViewHolder
+   * Provides a reference to the views for each data item
+   */
+  static class
+  YogaInstructorViewHolder extends
+                           ViewHolder
+  {
+    final FrameLayout itemFrameLayout;
+    final TextView    itemTextView;
+    
+    /**
+     * constructor
+     * @param itemView - root or parent layout element for the item
+     */
+    YogaInstructorViewHolder(final View itemView)
+    {
+      super(itemView);
+      itemFrameLayout = itemView.findViewById(R.id.itemCardView);
+      itemTextView    = itemView.findViewById(R.id.itemTextView);
+    }
   }
   
   /**
@@ -81,15 +96,29 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @see #getItemViewType(int)
    * @see #onBindViewHolder(ViewHolder, int)
    */
-  @Override @NonNull
-  public YogaInstructorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+  @Override
+  @NonNull
+  public final YogaInstructorViewHolder
+  onCreateViewHolder(@Nullable ViewGroup parent,
+                     int viewType)
   {
-    // create new View
-    LayoutInflater inflater  = LayoutInflater.from(parent.getContext());
-    View listItemView = inflater.inflate(R.layout.name_list_item, parent,false);
+    YogaInstructorViewHolder result = null;
+    
+    if(parent != null)
+    {
+      LayoutInflater inflater  =
+      LayoutInflater.from(parent.getContext());
+      
+      // create new View
+      View listItemView =
+      inflater.inflate(R.layout.name_list_item, parent,false);
+      
+      result = new YogaInstructorViewHolder(listItemView);
+    }
+  
     // if there are different view types (Header, Footer, etc) use viewType
     
-    return new YogaInstructorViewHolder(listItemView);
+    return result;
   }
   
   /**
@@ -100,7 +129,7 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * Note that unlike ListView, RecyclerView will not call this method
    * again if the position of the item changes in the data set unless the item itself is
    * invalidated or the new position cannot be determined. For this reason, you should only
-   * use the <code>position</code> parameter while acquiring the related data item inside
+   * use the {@code position} parameter while acquiring the related data item inside
    * this method and should not keep a copy of it. If you need the position of an item later
    * on (e.g. in a click listener), use {@link ViewHolder#getAdapterPosition()} which will
    * have the updated adapter position.
@@ -112,17 +141,15 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @param position The position of the item within the adapter's data set.
    */
   @Override
-  public void onBindViewHolder(@NonNull YogaInstructorViewHolder viewHolder, int position)
+  public final void
+  onBindViewHolder(@Nullable YogaInstructorViewHolder viewHolder,
+                   int position)
   {
-    if(position > getItemCount())
-    {
-      throwListOverflowException();
-    }
     // fill View with data from YogaInstructor class
     YogaInstructor instructor = getYogaInstructor(position);
     TextView itemTextView = viewHolder.itemTextView;
     itemTextView.setText(instructor.getName());
-    itemTextView.setTag(position);
+    itemTextView.setTag(Integer.valueOf(position));
     itemTextView.setOnClickListener(this);
   }
   
@@ -133,7 +160,8 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @see #onDetachedFromRecyclerView(RecyclerView)
    */
   @Override
-  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
+  public final void
+  onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
   {
     super.onAttachedToRecyclerView(recyclerView);
   }
@@ -143,14 +171,12 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @return item id by it's position
    * @throws IllegalArgumentException if position is greater than the size of the instructors
    */
+  @Contract(pure = true)
   @Override
-  public long getItemId(int position) throws IllegalArgumentException
+  public final long
+  getItemId(int position)
   {
-    if(position > getItemCount())
-    {
-      throwListOverflowException();
-    }
-    return position;
+    return (long) position;
   }
   
   /**
@@ -158,12 +184,9 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @return Object item by it's position
    * @throws IllegalArgumentException if position is greater than the size of the instructors
    */
-  private Object getItem(int position) throws IllegalArgumentException
+  private Object
+  getItem(int position)
   {
-    if(position > getItemCount())
-    {
-      throwListOverflowException();
-    }
     return instructors.get(position);
   }
   
@@ -172,18 +195,16 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @return YogaInstructor by it's position
    * @throws IllegalArgumentException if position is greater than the size of the instructors
    */
-  private YogaInstructor getYogaInstructor(int position) throws IllegalArgumentException
+  private YogaInstructor
+  getYogaInstructor(int position)
   {
-    if(position > getItemCount())
-    {
-      throwListOverflowException();
-    }
     return ((YogaInstructor) getItem(position));
   }
   
   @Override
-  public void onResponse(@NonNull Call<GoogleSheetsResponse> call,
-      @NonNull Response<GoogleSheetsResponse> response)
+  public final void
+  onResponse(@Nullable Call<GoogleSheetsResponse> call,
+             @Nullable Response<GoogleSheetsResponse> response)
   {
     GoogleSheetsResponse body = response.body();
     
@@ -203,15 +224,17 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
           onLoadMoreItemsListener.setLoading(false);
         }
         
-        // log(instructors.get(i).getName());
+        log(instructors.get(i).getName());
       }
     }
   }
   
   @Override
-  public void onFailure(@NonNull Call<GoogleSheetsResponse> call, @NonNull Throwable t)
+  public final void
+  onFailure(@Nullable Call<GoogleSheetsResponse> call,
+                              @Nullable Throwable throwable)
   {
-    log("Error occurred during networking " + t);
+    log("Error occurred during networking " + throwable);
   }
   
   /**
@@ -219,36 +242,40 @@ public class InstructorAdapter extends Adapter<InstructorAdapter.YogaInstructorV
    * @param view The view that was clicked.
    */
   @Override
-  public void onClick(View view)
+  public final void
+  onClick(View view)
   {
-    if(view instanceof TextView && view.getTag() != null)
+    if((view instanceof TextView) &&
+       (view.getTag() != null))
     {
-      YogaInstructor instructor = instructors.get((Integer) view.getTag());
+      YogaInstructor instructor =
+      instructors.get(((Integer) view.getTag()).intValue());
       
       // log("instructor.name = " + instructor.getName());
       
       if (onDetailsRequestedListener != null)
       {
-        onDetailsRequestedListener.onDetailsRequested(instructor.getName(), instructor.getPlace());
+        onDetailsRequestedListener
+        .onDetailsRequested(instructor.getName(),
+                            instructor.getPlace());
       }
     }
   }
   
-  public void setOnDetailsRequestedListener(OnDetailsRequestedListener onDetailsRequestedListener)
+  public final void
+  setOnDetailsRequestedListener(OnDetailsRequestedListener
+                                onDetailsRequestedListener)
   {
-    this.onDetailsRequestedListener = onDetailsRequestedListener;
+    this.onDetailsRequestedListener =
+    onDetailsRequestedListener;
   }
   
-  public void setOnLoadMoreItemsListener(OnLoadMoreItemsListener onLoadMoreItemsListener)
+  public final void
+  setOnLoadMoreItemsListener(OnLoadMoreItemsListener
+                             onLoadMoreItemsListener)
   {
-    this.onLoadMoreItemsListener = onLoadMoreItemsListener;
-  }
-  
-  @Contract(" -> fail")
-  private void throwListOverflowException()
-  {
-    throw new IllegalArgumentException(
-        "List length overflow. Position shouldn't be greater than the size of the instructors");
+    this.onLoadMoreItemsListener =
+    onLoadMoreItemsListener;
   }
 }
 

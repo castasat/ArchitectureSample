@@ -1,12 +1,15 @@
 package com.openyogaland.denis.architecturesample;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.widget.Toast;
+
+import org.jetbrains.annotations.NonNls;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -26,31 +29,35 @@ import java.util.Locale;
  *
  *  Можно использовать любые библиотеки, кроме тех которые уже содержат решение задачи.
  */
-public class MainActivity extends AppCompatActivity implements OnDetailsRequestedListener,
-                                                               OnLoadMoreItemsListener
+public class
+MainActivity extends
+             AppCompatActivity implements
+                               OnDetailsRequestedListener,
+                               OnLoadMoreItemsListener
 {
   // constants
-  private static final String       RANGE_TEMPLATE = "A%1$d:B%2$d";
-  private static final int          FIRST_ELEMENT  = 1;
-  private static final int          LOAD_ELEMENTS  = 50;
+  @NonNls private static final String RANGE_TEMPLATE = "A%1$d:B%2$d";
+  private static final         int    FIRST_ELEMENT  = 1;
+  private static final         int    LOAD_ELEMENTS  = 50;
   
   // fields
-  private ArrayList<YogaInstructor>      instructors      = new ArrayList<>();
-  private OnYogaInstructorScrollListener onScrollListener = new OnYogaInstructorScrollListener();
-  private InstructorAdapter              instructorAdapter;
-  private LinearLayoutManager            layoutManager;
-  private int                            loadStartItemBound;
-  private int                            loadEndItemBound;
-  private boolean                        loading          = false;
+  private final ArrayList<YogaInstructor>      instructors      = new ArrayList<>(LOAD_ELEMENTS);
+  private final OnYogaInstructorScrollListener onScrollListener = new OnYogaInstructorScrollListener();
+  private InstructorAdapter   instructorAdapter;
+  private LinearLayoutManager layoutManager;
+  private int                 loadStartItemBound;
+  private int                 loadEndItemBound;
+  private boolean             loading;
   
   @Override
-  protected void onCreate(Bundle savedInstanceState)
+  protected final void
+  onCreate(@Nullable final Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     
     // find RecyclerView
-    RecyclerView  instructorRecyclerView  = findViewById(R.id.instructorRecyclerView);
+    final RecyclerView instructorRecyclerView  = findViewById(R.id.instructorRecyclerView);
     
     // set LayoutManager to RecyclerView
     layoutManager = new LinearLayoutManager(this);
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
     // check internet connection and call Api
     if(ArchitectureSample.hasConnection(this))
     {
-      Toast.makeText(this, "Fetching data from Google Sheets Api", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, R.string.fetching_data, Toast.LENGTH_LONG).show();
       
       // load 50 elements then called for the first time
       loadStartItemBound = FIRST_ELEMENT;
@@ -81,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
     }
     else
     {
-      Toast.makeText(this, "Check the internet connection", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, R.string.check_internet, Toast.LENGTH_LONG).show();
     }
   }
   
@@ -91,9 +98,10 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
    * @param place - place of instructor
    */
   @Override
-  public void onDetailsRequested(String name, String place)
+  public final void
+  onDetailsRequested(final String name, final String place)
   {
-    Intent intent = new Intent(this, DetailsActivity.class);
+    final Intent intent = new Intent(this, DetailsActivity.class);
     intent.putExtra(ArchitectureSample.NAME, name);
     intent.putExtra(ArchitectureSample.PLACE, place);
     startActivity(intent);
@@ -106,15 +114,23 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
    * @throws IllegalArgumentException - is thrown in case of illegal arguments values
    */
   @Override
-  public void loadItems(int loadStartItemBound, int loadEndItemBound) throws IllegalArgumentException
+  public final void
+  loadItems(final int loadStartItemBound,
+            final int loadEndItemBound) throws
+                                  IllegalArgumentException
   {
     if ((loadStartItemBound >= 0) &&
         (loadEndItemBound >= 0) &&
         (loadStartItemBound <= loadEndItemBound))
     {
-      Toast.makeText(this, "Load A" + loadStartItemBound + ":B" + loadEndItemBound, Toast.LENGTH_LONG).show();
+      Toast.makeText(this, "Load A" +
+                           loadStartItemBound + ":B" +
+                           loadEndItemBound, Toast.LENGTH_LONG).show();
       
-      String range = String.format(Locale.getDefault(), RANGE_TEMPLATE, loadStartItemBound, loadEndItemBound);
+      final String range = String.format(Locale.getDefault(),
+                                         RANGE_TEMPLATE,
+                                         loadStartItemBound,
+                                         loadEndItemBound);
   
       ArchitectureSample.getInstance().getGoogleSheetsApi()
           .get(GoogleSheetsApi.SPREADSHEET_ID, range, GoogleSheetsApi.API_KEY)
@@ -127,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
   }
   
   @Override
-  public void setLoading(boolean loading)
+  public final void setLoading(final boolean loading)
   {
     this.loading = loading;
   }
@@ -135,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
   /**
    * inner class - custom OnScrollListener to add more items
    */
-  class OnYogaInstructorScrollListener extends OnScrollListener
+  class OnYogaInstructorScrollListener extends
+                                       OnScrollListener
   {
     private OnLoadMoreItemsListener onLoadMoreItemsListener;
     
@@ -149,29 +166,34 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
      * @param dy The amount of vertical scroll.
      */
     @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+    public final void
+    onScrolled(@Nullable final RecyclerView recyclerView,
+               final int dx,
+               final int dy)
     {
-      super.onScrolled(recyclerView, dx, dy);
+      if(recyclerView != null)
+      {
+        super.onScrolled(recyclerView, dx, dy);
+      }
   
       if(!loading)
       {
-        int visibleItemCount  = layoutManager.getChildCount();
-        int totalItemCount    = layoutManager.getItemCount();
-        int firstVisibleItems = layoutManager.findFirstVisibleItemPosition();
+        final int visibleItemCount  = layoutManager.getChildCount();
+        final int totalItemCount    = layoutManager.getItemCount();
+        final int firstVisibleItems = layoutManager.findFirstVisibleItemPosition();
   
-        if(!loading)
+        if((visibleItemCount + firstVisibleItems) >= totalItemCount)
         {
-          if((visibleItemCount + firstVisibleItems) >= totalItemCount)
+          loading = true;
+          
+          if(onLoadMoreItemsListener != null)
           {
-            loading = true;
-            if(onLoadMoreItemsListener != null)
-            {
-              // calculate new bound values to call Api
-              loadStartItemBound = totalItemCount;
-              loadEndItemBound = totalItemCount + LOAD_ELEMENTS;
-  
-              onLoadMoreItemsListener.loadItems(loadStartItemBound, loadEndItemBound);
-            }
+            // calculate new bound values to call Api
+            loadStartItemBound = totalItemCount;
+            loadEndItemBound   = totalItemCount + LOAD_ELEMENTS;
+      
+            onLoadMoreItemsListener
+            .loadItems(loadStartItemBound, loadEndItemBound);
           }
         }
       }
@@ -181,18 +203,22 @@ public class MainActivity extends AppCompatActivity implements OnDetailsRequeste
      * setter
      * @param onLoadMoreItemsListener - callback interface to load more items
      */
-    void setOnLoadMoreItemsListener(OnLoadMoreItemsListener onLoadMoreItemsListener)
+    final void
+    setOnLoadMoreItemsListener(@Nullable final OnLoadMoreItemsListener onLoadMoreItemsListener)
     {
       this.onLoadMoreItemsListener = onLoadMoreItemsListener;
     }
   }
 }
 
+
 /**
  * callback interface to load more items
  */
 interface OnLoadMoreItemsListener
 {
-  void loadItems(int loadStartItemBound, int loadEndItemBound) throws IllegalArgumentException;
+  void loadItems(int loadStartItemBound,
+                 int loadEndItemBound) throws IllegalArgumentException;
+  
   void setLoading(boolean loading);
 }

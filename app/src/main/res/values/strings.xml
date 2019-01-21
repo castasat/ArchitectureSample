@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Architecture Sample</string>
+  <string name="fetching_data">Fetching data from Google Sheets Api</string>
+  <string name="check_internet">Check the internet connection</string>
 </resources>
