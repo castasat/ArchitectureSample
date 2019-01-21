@@ -3,14 +3,13 @@ package com.openyogaland.denis.architecturesample;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -19,6 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 /**
  * Singleton pattern class
@@ -74,18 +75,23 @@ ArchitectureSample
    * getter
    * @return googleSheetsApi - object to execute api requests
    */
-  public GoogleSheetsApi getGoogleSheetsApi()
+  public GoogleSheetsApi
+  getGoogleSheetsApi()
   {
-    return googleSheetsApi;
+    return
+    googleSheetsApi;
   }
   
   /**
    * shorter logging
    * @param message - message to print to log
    */
-  static void log(@NonNls String message)
+  static void
+  log(@NonNls
+      String message)
   {
-    Log.d(LOG_TAG, message);
+    Log.d(LOG_TAG,
+          message);
   }
   
   /**
@@ -93,17 +99,30 @@ ArchitectureSample
    * @param context - context of the caller
    * @return boolean true if there is internet connection, false otherwise
    */
-  static boolean hasConnection(@NonNull @NotNull final Context context)
+  static boolean
+  hasConnection
+  (@Nullable final
+   Context context)
   {
     // local variables
     ConnectivityManager connectivityManager;
     NetworkInfo         networkInfo;
     
-    connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    connectivityManager =
+    (ConnectivityManager)
+    context
+    .getSystemService
+     (CONNECTIVITY_SERVICE);
+    
     if(connectivityManager != null)
     {
-      networkInfo = connectivityManager.getActiveNetworkInfo();
-      return networkInfo != null && networkInfo.isConnected();
+      networkInfo =
+      connectivityManager
+      .getActiveNetworkInfo();
+      
+      return
+      (networkInfo != null) &&
+      networkInfo.isConnected();
     }
     return false;
   }
@@ -118,7 +137,9 @@ interface GoogleSheetsApi
   
   // endpoint methods declaration
   @GET("/v4/spreadsheets/{spreadsheetId}/values/{range}")
-  Call<GoogleSheetsResponse> get(@Path("spreadsheetId") String spreadsheetId,
-                                 @Path("range") String range,
-                                 @Query("key") String apiKey);
+  Call<GoogleSheetsResponse>
+  get(@Path("spreadsheetId")
+      String spreadsheetId,
+      @Path("range") String range,
+      @Query("key") String apiKey);
 }

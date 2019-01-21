@@ -51,13 +51,16 @@ implements OnDetailsRequestedListener,
   
   @Override
   protected final void
-  onCreate(@Nullable final Bundle savedInstanceState)
+  onCreate
+  (@Nullable final
+   Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     
     // find RecyclerView
-    final RecyclerView instructorRecyclerView  = findViewById(R.id.instructorRecyclerView);
+    final RecyclerView instructorRecyclerView  =
+    findViewById(R.id.instructorRecyclerView);
     
     // set LayoutManager to RecyclerView
     layoutManager = new LinearLayoutManager(this);
@@ -77,9 +80,15 @@ implements OnDetailsRequestedListener,
     instructorAdapter.setOnLoadMoreItemsListener(this);
     
     // check internet connection and call Api
-    if(ArchitectureSample.hasConnection(this))
+    if(ArchitectureSample
+       .hasConnection(this))
     {
-      Toast.makeText(this, R.string.fetching_data, Toast.LENGTH_LONG).show();
+      Toast
+      .makeText
+       (this,
+        R.string.fetching_data,
+        Toast.LENGTH_LONG)
+      .show();
       
       // load 50 elements then called for the first time
       loadStartItemBound = FIRST_ELEMENT;
@@ -88,7 +97,12 @@ implements OnDetailsRequestedListener,
     }
     else
     {
-      Toast.makeText(this, R.string.check_internet, Toast.LENGTH_LONG).show();
+      Toast
+      .makeText
+       (this,
+        R.string.check_internet,
+        Toast.LENGTH_LONG)
+      .show();
     }
   }
   
@@ -99,11 +113,18 @@ implements OnDetailsRequestedListener,
    */
   @Override
   public final void
-  onDetailsRequested(final String name, final String place)
+  onDetailsRequested
+  (final String name,
+   final String place)
   {
-    final Intent intent = new Intent(this, DetailsActivity.class);
+    final Intent intent =
+    new Intent
+    (this,
+     DetailsActivity.class);
+    
     intent.putExtra(ArchitectureSample.NAME, name);
     intent.putExtra(ArchitectureSample.PLACE, place);
+    
     startActivity(intent);
   }
   
@@ -115,48 +136,64 @@ implements OnDetailsRequestedListener,
    */
   @Override
   public final void
-  loadItems(final int loadStartItemBound,
-            final int loadEndItemBound)
+  loadItems
+  (final int loadStartItemBound,
+   final int loadEndItemBound)
   throws IllegalArgumentException
   {
     if ((loadStartItemBound >= 0) &&
         (loadEndItemBound >= 0) &&
         (loadStartItemBound <= loadEndItemBound))
     {
-      Toast.makeText(this, "Load A" +
-                           loadStartItemBound + ":B" +
-                           loadEndItemBound, Toast.LENGTH_LONG).show();
+      Toast
+      .makeText
+       (this, "Load A"
+              + loadStartItemBound + ":B"
+              + loadEndItemBound,
+        Toast.LENGTH_LONG)
+      .show();
       
-      final String range = String.format(Locale.getDefault(),
-                                         RANGE_TEMPLATE,
-                                         loadStartItemBound,
-                                         loadEndItemBound);
+      final String range =
+      String
+      .format(Locale.getDefault(),
+              RANGE_TEMPLATE,
+              loadStartItemBound,
+              loadEndItemBound);
   
       ArchitectureSample
       .getInstance()
       .getGoogleSheetsApi()
-      .get(GoogleSheetsApi.SPREADSHEET_ID, range, GoogleSheetsApi.API_KEY)
+      .get(GoogleSheetsApi.SPREADSHEET_ID,
+           range,
+           GoogleSheetsApi.API_KEY)
       .enqueue(instructorAdapter);
     }
     else
     {
-      throw new IllegalArgumentException("Illegal arguments for range");
+      throw
+      new IllegalArgumentException
+      ("Illegal arguments for range");
     }
   }
   
   @Override
-  public final void setLoading(final boolean loading)
+  public final void
+  setLoading
+  (final boolean loading)
   {
-    this.loading = loading;
+    this.loading =
+    loading;
   }
   
   /**
    * inner class - custom OnScrollListener to add more items
    */
-  class OnYogaInstructorScrollListener extends
-                                       OnScrollListener
+  class
+  OnYogaInstructorScrollListener
+  extends OnScrollListener
   {
-    private OnLoadMoreItemsListener onLoadMoreItemsListener;
+    private OnLoadMoreItemsListener
+    onLoadMoreItemsListener;
     
     /**
      * Callback method to be invoked when the RecyclerView has been scrolled. This will be
@@ -169,13 +206,17 @@ implements OnDetailsRequestedListener,
      */
     @Override
     public final void
-    onScrolled(@Nullable final RecyclerView recyclerView,
-               final int dx,
-               final int dy)
+    onScrolled
+    (@Nullable final
+     RecyclerView recyclerView,
+     final int dx,
+     final int dy)
     {
       if(recyclerView != null)
       {
-        super.onScrolled(recyclerView, dx, dy);
+        super
+        .onScrolled
+         (recyclerView, dx, dy);
       }
   
       if(!loading)
@@ -184,7 +225,9 @@ implements OnDetailsRequestedListener,
         final int totalItemCount    = layoutManager.getItemCount();
         final int firstVisibleItems = layoutManager.findFirstVisibleItemPosition();
   
-        if((visibleItemCount + firstVisibleItems) >= totalItemCount)
+        if((visibleItemCount
+            + firstVisibleItems)
+           >= totalItemCount)
         {
           loading = true;
           
@@ -211,7 +254,8 @@ implements OnDetailsRequestedListener,
      OnLoadMoreItemsListener
      onLoadMoreItemsListener)
     {
-      this.onLoadMoreItemsListener = onLoadMoreItemsListener;
+      this.onLoadMoreItemsListener =
+      onLoadMoreItemsListener;
     }
   }
 }
@@ -220,10 +264,14 @@ implements OnDetailsRequestedListener,
 /**
  * callback interface to load more items
  */
-interface OnLoadMoreItemsListener
+interface
+OnLoadMoreItemsListener
 {
-  void loadItems(int loadStartItemBound,
-                 int loadEndItemBound) throws IllegalArgumentException;
+  void loadItems
+  (int loadStartItemBound,
+   int loadEndItemBound)
+  throws IllegalArgumentException;
   
-  void setLoading(boolean loading);
+  void setLoading
+  (boolean loading);
 }

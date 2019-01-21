@@ -10,7 +10,8 @@ import java.util.ArrayList;
  * Simple POJO that matches each field in the JSON response object gotten from querying an API
  * with getters and setters for each field
  */
-public class YogaInstructor
+public class
+YogaInstructor
 {
   
   @SerializedName("instructors")
@@ -25,13 +26,16 @@ public class YogaInstructor
   /**
    * No args constructor for use in serialization
    */
-  public YogaInstructor() {}
+  public
+  YogaInstructor() {}
   
   /**
    * constructor
    * @param instructors - instructors of two String values name and place
    */
-  YogaInstructor(@NotNull ArrayList<String> instructors)
+  YogaInstructor
+  (@NotNull ArrayList<String>
+   instructors)
   {
     this.instructors = instructors;
     
@@ -43,53 +47,66 @@ public class YogaInstructor
    * getter
    * @return instructors - instructors of two String values name and place
    */
-  public ArrayList<String> getInstructors()
+  public ArrayList<String>
+  getInstructors()
   {
-    return instructors;
+    return
+    instructors;
   }
   
   /**
    * setter
    * @param instructors - instructors of two String values name and place
    */
-  public void setInstructors(ArrayList<String> instructors)
+  public void
+  setInstructors
+  (ArrayList<String> instructors)
   {
-    this.instructors = instructors;
+    this.instructors =
+    instructors;
   }
   
   /**
    * getter
    * @return name - name of yoga instructor
    */
-  public String getName()
+  public String
+  getName()
   {
-    return name;
+    return
+    name;
   }
   
   /**
    * setter
    * @param name - name of yoga instructor
    */
-  public void setName(String name)
+  public void
+  setName(String name)
   {
-    this.name = name;
+    this.name =
+    name;
   }
   
   /**
    * getter
    * @return place - the places place yoga instructor works
    */
-  public String getPlace()
+  public String
+  getPlace()
   {
-    return place;
+    return
+    place;
   }
   
   /**
    * setter
    * @param place - the place where yoga instructor works
    */
-  public void setPlace(String place)
+  public void
+  setPlace(String place)
   {
-    this.place = place;
+    this.place =
+    place;
   }
 }

@@ -21,7 +21,8 @@ GoogleSheetsResponse
   
   @Expose
   @SerializedName("values")
-  private ArrayList<ArrayList<String>> values = new ArrayList<>();
+  private ArrayList<ArrayList<String>> values =
+  new ArrayList<>();
   
   public
   GoogleSheetsResponse() {}
@@ -33,9 +34,10 @@ GoogleSheetsResponse
    * @param majorDimension - ROWS (default) or COLUMNS
    */
   public
-  GoogleSheetsResponse(String range,
-                       String majorDimension,
-                       ArrayList<ArrayList<String>> values)
+  GoogleSheetsResponse
+  (String range,
+   String majorDimension,
+   ArrayList<ArrayList<String>> values)
   {
     this.range = range;
     this.majorDimension = majorDimension;
@@ -45,26 +47,32 @@ GoogleSheetsResponse
   public String
   getRange()
   {
-    return range;
+    return
+    range;
   }
   
   public void
-  setRange(String range)
+  setRange
+  (String range)
   {
-    this.range = range;
+    this.range =
+    range;
   }
 
   public String
   getMajorDimension()
   {
-    return majorDimension;
+    return
+    majorDimension;
   }
   
   // majorDimension - ROWS (default) or COLUMNS
   public void
-  setMajorDimension(String majorDimension)
+  setMajorDimension
+  (String majorDimension)
   {
-    this.majorDimension = majorDimension;
+    this.majorDimension =
+    majorDimension;
   }
   
   /**
@@ -78,7 +86,8 @@ GoogleSheetsResponse
     {
       return new ArrayList<>();
     }
-    return values;
+    return
+    values;
   }
   
   /**
@@ -87,6 +96,7 @@ GoogleSheetsResponse
   public void
   setValues(ArrayList<ArrayList<String>> values)
   {
-    this.values = values;
+    this.values =
+    values;
   }
 }

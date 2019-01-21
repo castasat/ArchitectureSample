@@ -52,7 +52,8 @@ public class InstructorAdapter extends
   public final int
   getItemCount()
   {
-    return instructors.size();
+    return
+    instructors.size();
   }
   
   /**
@@ -60,8 +61,8 @@ public class InstructorAdapter extends
    * Provides a reference to the views for each data item
    */
   static class
-  YogaInstructorViewHolder extends
-                           ViewHolder
+  YogaInstructorViewHolder
+  extends ViewHolder
   {
     final FrameLayout itemFrameLayout;
     final TextView    itemTextView;
@@ -98,8 +99,9 @@ public class InstructorAdapter extends
   @Override
   @NonNull
   public final YogaInstructorViewHolder
-  onCreateViewHolder(@Nullable ViewGroup parent,
-                     int viewType)
+  onCreateViewHolder
+  (@Nullable ViewGroup parent,
+   int viewType)
   {
     YogaInstructorViewHolder result = null;
     
@@ -110,9 +112,15 @@ public class InstructorAdapter extends
       
       // create new View
       View listItemView =
-      inflater.inflate(R.layout.name_list_item, parent,false);
+      inflater
+      .inflate
+       (R.layout.name_list_item,
+        parent,
+        false);
       
-      result = new YogaInstructorViewHolder(listItemView);
+      result =
+      new YogaInstructorViewHolder
+      (listItemView);
     }
   
     // if there are different view types (Header, Footer, etc) use viewType
@@ -141,8 +149,9 @@ public class InstructorAdapter extends
    */
   @Override
   public final void
-  onBindViewHolder(@Nullable YogaInstructorViewHolder viewHolder,
-                   int position)
+  onBindViewHolder
+  (@Nullable YogaInstructorViewHolder viewHolder,
+   int position)
   {
     // fill View with data from YogaInstructor class
     YogaInstructor instructor = getYogaInstructor(position);
@@ -160,9 +169,13 @@ public class InstructorAdapter extends
    */
   @Override
   public final void
-  onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
+  onAttachedToRecyclerView
+  (@NonNull RecyclerView
+   recyclerView)
   {
-    super.onAttachedToRecyclerView(recyclerView);
+    super
+    .onAttachedToRecyclerView
+     (recyclerView);
   }
   
   /**
@@ -173,9 +186,11 @@ public class InstructorAdapter extends
   @Contract(pure = true)
   @Override
   public final long
-  getItemId(int position)
+  getItemId
+  (int position)
   {
-    return (long) position;
+    return
+    (long) position;
   }
   
   /**
@@ -184,9 +199,12 @@ public class InstructorAdapter extends
    * @throws IllegalArgumentException if position is greater than the size of the instructors
    */
   private Object
-  getItem(int position)
+  getItem
+  (int position)
   {
-    return instructors.get(position);
+    return
+    instructors
+    .get(position);
   }
   
   /**
@@ -195,17 +213,22 @@ public class InstructorAdapter extends
    * @throws IllegalArgumentException if position is greater than the size of the instructors
    */
   private YogaInstructor
-  getYogaInstructor(int position)
+  getYogaInstructor
+  (int position)
   {
-    return ((YogaInstructor) getItem(position));
+    return
+    ((YogaInstructor)
+     getItem(position));
   }
   
   @Override
   public final void
-  onResponse(@Nullable Call<GoogleSheetsResponse> call,
-             @Nullable Response<GoogleSheetsResponse> response)
+  onResponse
+  (@Nullable Call<GoogleSheetsResponse> call,
+   @Nullable Response<GoogleSheetsResponse> response)
   {
-    GoogleSheetsResponse body = response.body();
+    GoogleSheetsResponse body =
+    response.body();
     
     if(body != null)
     {
@@ -223,17 +246,21 @@ public class InstructorAdapter extends
           onLoadMoreItemsListener.setLoading(false);
         }
         
-        log(instructors.get(i).getName());
+        log(instructors
+            .get(i)
+            .getName());
       }
     }
   }
   
   @Override
   public final void
-  onFailure(@Nullable Call<GoogleSheetsResponse> call,
-                              @Nullable Throwable throwable)
+  onFailure
+  (@Nullable Call<GoogleSheetsResponse> call,
+   @Nullable Throwable throwable)
   {
-    log("Error occurred during networking " + throwable);
+    log("Error occurred during networking "
+        + throwable);
   }
   
   /**
@@ -248,37 +275,45 @@ public class InstructorAdapter extends
        (view.getTag() != null))
     {
       YogaInstructor instructor =
-      instructors.get(((Integer) view.getTag()).intValue());
+      instructors
+      .get(((Integer)
+            view.getTag())
+           .intValue());
       
       // log("instructor.name = " + instructor.getName());
       
       if (onDetailsRequestedListener != null)
       {
         onDetailsRequestedListener
-        .onDetailsRequested(instructor.getName(),
-                            instructor.getPlace());
+        .onDetailsRequested
+         (instructor.getName(),
+          instructor.getPlace());
       }
     }
   }
   
   public final void
-  setOnDetailsRequestedListener(OnDetailsRequestedListener
-                                onDetailsRequestedListener)
+  setOnDetailsRequestedListener
+  (OnDetailsRequestedListener
+   onDetailsRequestedListener)
   {
     this.onDetailsRequestedListener =
     onDetailsRequestedListener;
   }
   
   public final void
-  setOnLoadMoreItemsListener(OnLoadMoreItemsListener
-                             onLoadMoreItemsListener)
+  setOnLoadMoreItemsListener
+  (OnLoadMoreItemsListener
+   onLoadMoreItemsListener)
   {
     this.onLoadMoreItemsListener =
     onLoadMoreItemsListener;
   }
 }
 
-interface OnDetailsRequestedListener
+interface
+OnDetailsRequestedListener
 {
-  void onDetailsRequested(String name, String place);
+  void onDetailsRequested
+  (String name, String place);
 }
